@@ -1,6 +1,8 @@
 import pandas as pd
 import kagglehub
 import os
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 # --- BÖLÜM 1: VERİYİ ÇEKME ---
 path = kagglehub.dataset_download("yasserh/titanic-dataset")
@@ -12,8 +14,7 @@ print("Boş ücret sayısı:", df["Fare"].isnull().sum())
 
 print("Boş yaş sayısı:", df["Age"].isnull().sum())
 
-# 2. Eğer boş veri varsa (Titanic'te genelde 1 tane olur), 
-# senin görseldeki x_mean mantığıyla dolduralım:
+
 fare_mean = df["Fare"].mean()
 df["Fare"] = df["Fare"].fillna(fare_mean)
 
@@ -32,3 +33,18 @@ print(analiz)
 print("Cinsiyete göre")
 analiz2 = df.groupby(['Pclass', 'Sex'])['Survived'].mean()
 print(analiz2)
+
+
+sns.set_theme(style="darkgrid")
+
+
+plt.figure(figsize=(10, 6)) 
+sns.barplot(x='Pclass', y='Survived', hue='Sex', data=df)
+
+# 3. Etiketleri ekle (Grafiğin ne anlattığı anlaşılsın)
+plt.title('Sınıf ve Cinsiyete Göre Hayatta Kalma Oranları', fontsize=15)
+plt.ylabel('Hayatta Kalma Oranı (%)')
+plt.xlabel('Yolcu Sınıfı')
+
+
+plt.show()
