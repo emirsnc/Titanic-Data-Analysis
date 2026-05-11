@@ -47,4 +47,10 @@ plt.ylabel('Hayatta Kalma Oranı (%)')
 plt.xlabel('Yolcu Sınıfı')
 
 
-plt.show()
+df_numeric = df.copy() 
+df_numeric['Sex'] = df_numeric['Sex'].map({'female': 1, 'male': 0}) #cinsiyetleri sayıyla iliskilendirdik
+
+korelasyon = df_numeric['Sex'].corr(df_numeric['Survived']) 
+
+print(f"Kadın Olmak ve Hayatta Kalma Arasındaki Korelasyon: {korelasyon}")
+#0.5 civarı gayet yüksek, yolcu kadınsa kurtulma oranı doğru orantı gosteriyor.
